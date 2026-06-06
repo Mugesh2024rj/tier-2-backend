@@ -1,0 +1,35 @@
+apiVersion: apps/v1  # was app/v2
+kind: Deployment 
+metadata:
+  name: tier-2-backend
+spec:
+  replicas: 2
+  selector: 
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend
+          image: employee-management-backend:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DB_URL
+              value: "jdbc:postgresql://postgres:5432/employeedb"
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: username
+            - name: DB_PASSWORD
+              valueFrom: 
+                secretKeyRef:
+                  name: postgres-secret
+                  key: password
+
+
