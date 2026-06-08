@@ -14,8 +14,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: employee-management-backend:latest
-          imagePullPolicy: Never
+          image: mugesh202006/employee-backend:latest
           ports:
             - containerPort: 8080
           env:
@@ -25,11 +24,12 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: postgres-secret
-                  key: username
+                  key: postgres-user
+
             - name: DB_PASSWORD
               valueFrom: 
                 secretKeyRef:
                   name: postgres-secret
-                  key: password
+                  key: postgres-password
 
 
